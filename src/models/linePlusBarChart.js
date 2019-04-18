@@ -29,6 +29,7 @@ nv.models.linePlusBarChart = function() {
         , getY = function(d) { return d.y }
         , color = nv.utils.defaultColor()
         , showLegend = true
+	, legendPosition = 'top'
         , focusEnable = true
         , focusShowAxisY = false
         , focusShowAxisX = true
@@ -233,17 +234,19 @@ nv.models.linePlusBarChart = function() {
                     }))
                     .call(legend);
 
-                if (!marginTop && legend.height() !== margin.top) {
-                    margin.top = legend.height();
-                    // FIXME: shouldn't this be "- (focusEnabled ? focusHeight : 0)"?
-                    availableHeight1 = nv.utils.availableHeight(height, container, margin) - focusHeight;
-                }
-
+		if (legendPosition === 'bottom') {
+                    wrap.select('.nv-legendwrap')
+			.attr('transform', 'translate(0,' + (availableHeight1 + legend.height()) + ')');
+	        } else if (legendPosition === 'top') {
+                    if (margin.top != legend.height()) {
+			    availableHeight1 = nv.utils.availableHeight(height, container, margin) - (focusEnable ? focusHeight : 0);
+		    }
+		}
                 g.select('.nv-legendWrap')
-                    .attr('transform', 'translate(' + legendXPosition + ',' + (-margin.top) +')');
+			.attr('transform', 'translate(0,' + (-margin.top) + ')');
             }
 
-            wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+            //wrap.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
             //============================================================
             // Context chart (focus chart) components
@@ -596,6 +599,7 @@ nv.models.linePlusBarChart = function() {
         width:      {get: function(){return width;}, set: function(_){width=_;}},
         height:     {get: function(){return height;}, set: function(_){height=_;}},
         showLegend: {get: function(){return showLegend;}, set: function(_){showLegend=_;}},
+        legendPosition: {get: function(){return legendPosition;}, set: function(_){legendPosition=_;}},
         brushExtent:    {get: function(){return brushExtent;}, set: function(_){brushExtent=_;}},
         noData:    {get: function(){return noData;}, set: function(_){noData=_;}},
         focusEnable:    {get: function(){return focusEnable;}, set: function(_){focusEnable=_;}},

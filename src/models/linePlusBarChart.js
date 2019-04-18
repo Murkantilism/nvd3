@@ -238,7 +238,7 @@ nv.models.linePlusBarChart = function() {
                     wrap.select('.nv-legendwrap')
 			.attr('transform', 'translate(0,' + (availableHeight1 + legend.height()) + ')');
 	        } else if (legendPosition === 'top') {
-                    if (margin.top != legend.height()) {
+                    if (!marginTop && legend.height() !== margin.top) {
 			    availableHeight1 = nv.utils.availableHeight(height, container, margin) - (focusEnable ? focusHeight : 0);
 		    }
 		}

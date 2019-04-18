@@ -22,7 +22,7 @@ nv.models.multiBarChart = function() {
         , showControls = true
         , controlLabels = {}
         , showLegend = true
-        , legendPosition = null
+        , legendPosition = 'top'
         , showXAxis = true
         , showYAxis = true
         , rightAlignYAxis = false
@@ -199,7 +199,7 @@ nv.models.multiBarChart = function() {
                      availableHeight = nv.utils.availableHeight(height, container, margin);
                      g.select('.nv-legendWrap')
                          .attr('transform', 'translate(0,' + (availableHeight + xAxis.height())  +')');
-                } else {
+                } else if (legendPosition === 'top') {
                     legend.width(availableWidth - controlWidth());
 
                     g.select('.nv-legendWrap')
@@ -208,7 +208,7 @@ nv.models.multiBarChart = function() {
 
                     if (!marginTop && legend.height() !== margin.top) {
                         margin.top = legend.height();
-                        availableHeight = nv.utils.availableHeight(height, container, margin);
+                        availableHeight = nv.utils.availableHeight(height, container, margin) - (focusEnable ? focusHeight : 0);
                     }
 
                     g.select('.nv-legendWrap')
